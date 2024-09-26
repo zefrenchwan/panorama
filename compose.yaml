@@ -1,0 +1,15 @@
+services:
+  dbconf:
+    image: postgres
+    restart: always
+    volumes:
+        - storage/selections/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_USER: ${DBCONF_USER}
+      POSTGRES_PASSWORD: ${DBCONF_PASS}
+      POSTGRES_DB: ${DBCONF_NAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 10s
+      retries: 10

@@ -24,3 +24,22 @@ General algorithm is to:
 Data may come from many sources (videos, social networks, etc). 
 This system should be able to deal with them all, that is to have a plugin system to add new webscrapers. 
 
+## Technical solution 
+
+### Scheduling 
+
+Scheduler will contact a dedicated server to launch the data collection step. 
+This server will load databse configuration
+
+## Installation
+
+### Storage 
+
+There are two databases: 
+1. One for configuration and selectors definition
+2. One for analytics (to see results)
+
+To set configuration database, define in an env file:
+* `DBCONF_USER` to define db user 
+* `DBCONF_PASS` to define db password 
+* `DBCONF_NAME` to define db database name
