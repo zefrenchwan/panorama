@@ -1,15 +1,26 @@
 services:
+  interactions:
+    build: interactions/
+    container_name: interface_container
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      dbconf:
+        condition: service_healthy
+
+
   dbconf:
     image: postgres
     restart: always
+    container_name: dbconf_container
     volumes:
-        - storage/selections/init.sql:/docker-entrypoint-initdb.d/init.sql
+        - ./storage/selections/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_USER: ${DBCONF_USER}
       POSTGRES_PASSWORD: ${DBCONF_PASS}
       POSTGRES_DB: ${DBCONF_NAME}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 5s
-      timeout: 10s
+      test: ["CMD-SHELL", "pg_isready -d ${DBCONF_NAME} -U ${DBCONF_USER}"]
+      interval: 2s
+      timeout: 5s
       retries: 10

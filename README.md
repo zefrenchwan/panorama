@@ -26,6 +26,10 @@ This system should be able to deal with them all, that is to have a plugin syste
 
 ## Technical solution 
 
+### Auth
+
+Any operation needs to be authenticated and authorized. 
+
 ### Scheduling 
 
 Scheduler will contact a dedicated server to launch the data collection step. 

@@ -19,7 +19,7 @@ create table collections.sources (
 );
 
 create table collections.requests (
-    request_id serial not null,
+    request_id serial primary key,
     user_id int not null references auth.users(user_id),
     source_id int references collections.sources(source_id),
     reload_minutes int not null, 
@@ -27,10 +27,10 @@ create table collections.requests (
     keywords text[] default null
 );
 
-create table connections.processors (
+create table collections.processors (
     processor_id serial primary key,
     request_id int references collections.requests(request_id), 
-    endpoint string not null,
+    processor text not null,
     last_run timestamp without time zone,
     last_status bool
 );
