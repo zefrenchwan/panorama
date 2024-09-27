@@ -1,12 +1,13 @@
-const { createServer } = require('node:http');
+const server = require('fastify')({ logger: true })
+const port = 3000
+const addr = '0.0.0.0'
 
-const port = 3000;
-
-const server = createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+server.get('/', (_request, reply) => {
+   reply.status(200).send("Hello World");
 });
 
-server.listen(port, () => {
+server.listen({host: addr, port: port}, error => {
+  if (error) {
+    process.exit(1);
+  }
 });

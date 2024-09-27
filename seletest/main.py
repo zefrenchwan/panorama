@@ -1,17 +1,12 @@
-from selenium import webdriver 
-from selenium.webdriver.chrome.options import Options
+from operations import *
 
-# build options 
-chrome_options = Options()
-chrome_options.add_argument("--disable-extensions")
-chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument("--headless=new")
-chrome_options.add_argument("--start-maximized")
-# launch driver
-driver = webdriver.Chrome(options=chrome_options)
-driver.implicitly_wait(2)
-start_url = "https://fr.yahoo.com/"
-driver.get(start_url)
-with open("./test.html","wb") as f:
-    f.write(driver.page_source.encode("utf-8"))
-driver.quit()
+driver = build_driver("https://www.google.fr")
+WebDriverWait(driver, 12.1).until(lambda x:False)
+
+
+#for item in find_items_matching_all(driver, "textarea", {"title": "Rechercher"}):
+#    item.send_keys("Paris")
+#    WebDriverWait(12.1).until(False)
+#    item.send_keys(Keys.ENTER)
+
+    
