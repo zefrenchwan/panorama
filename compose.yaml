@@ -4,6 +4,8 @@ services:
     container_name: interface_container
     ports:
       - "127.0.0.1:3000:3000"
+    environment:
+      - SESSION_SECRET=${SESSION_SECRET}
     depends_on:
       dbconf:
         condition: service_healthy
