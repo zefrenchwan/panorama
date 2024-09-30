@@ -26,22 +26,40 @@ This system should be able to deal with them all, that is to have a plugin syste
 
 ## Technical solution 
 
+Panorama is a group of applications: 
+1. A end-user web application for users to connect, define their requests see their results
+2. A scheduler to launch data collection 
+3. Some endpoint apps to collect data and start an asynchronous data flow
+4. This data flow passes by text processing, and data agregation 
+5. Agregated data is stored and visible by end user
+
 ### Auth
 
 Any operation needs to be authenticated and authorized. 
+OAuth2 is obvious technical choice. 
 
-### Scheduling 
-
-Scheduler will contact a dedicated server to launch the data collection step. 
-This server will load databse configuration
-
-## Installation
 
 ### Storage 
 
 There are two databases: 
 1. One for configuration and selectors definition
 2. One for analytics (to see results)
+
+
+### Scheduling 
+
+Scheduler will contact a dedicated server to launch the data collection step. 
+This server will load database configuration and define collection tasks to run. 
+
+## Installation
+
+### The global env file
+
+Create a `.env` file at the same level as `compose.yaml`. 
+It will contain all secrets for all subprojects. 
+
+To set secrets for `interactions` module:
+* `SESSION_SECRET` to define a long secret for sessions 
 
 To set configuration database, define in an env file:
 * `DBCONF_USER` to define db user 
