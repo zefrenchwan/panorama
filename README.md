@@ -53,6 +53,9 @@ This server will load database configuration and define collection tasks to run.
 
 ## Installation
 
+1. Define configuration in an `.env` file as descibed below
+2. Launch the whole system via a `docker compose up` 
+
 ### The global env file
 
 Create a `.env` file at the same level as `compose.yaml`. 
@@ -65,3 +68,8 @@ To set configuration database, define in an env file:
 * `DBCONF_USER` to define db user 
 * `DBCONF_PASS` to define db password 
 * `DBCONF_NAME` to define db database name
+
+
+### Interactions
+
+You may want to change on a regular basis the `COOKIE_SECRET` value in `interactions/Dockerfile`. 
