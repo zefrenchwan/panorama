@@ -18,8 +18,8 @@ create table collections.sources (
     url text unique not null     
 );
 
-create table collections.requests (
-    request_id serial primary key,
+create table collections.selectors (
+    selector_id serial primary key,
     user_id int not null references auth.users(user_id),
     source_id int references collections.sources(source_id),
     reload_minutes int not null, 
@@ -29,8 +29,26 @@ create table collections.requests (
 
 create table collections.processors (
     processor_id serial primary key,
-    request_id int references collections.requests(request_id), 
+    selector_id int references collections.selectors(selector_id), 
     processor text not null,
-    last_run timestamp without time zone,
-    last_status bool
+    activity bool default true
 );
+
+create table collections.tasks (
+    processor_id int not null references collections.processors(processor_id),
+    selector_id int not null references collections.selectors(selector_id),
+    task_id text not null primary key,
+    starting_time timestamp without time zone not null, 
+    ending_time timestamp without time zone, 
+    success bool 
+);
+ 
+create table collections.loads (
+    task_id text not null references collections.tasks(task_id),
+    load_id text primary key,
+    destination text not null,
+    starting_time timestamp without time zone not null, 
+    ending_time timestamp without time zone, 
+    success bool 
+);
+ 

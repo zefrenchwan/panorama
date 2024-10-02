@@ -1,0 +1,26 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://zefrenchwan.fr/collections.schema.json",
+    "title": "Collections schema",
+    "description": "Schema to define a single collection run",
+    "type": "object",
+    "properties": {
+        "taskId": {
+            "description": "Unique identifier for a collection task",
+            "type":"string"
+        },
+        "keywords":{
+            "description": "Values to look for in the source (optional)",
+            "type":"string"
+        },
+        "source":{
+            "description": "open data endpoint to collect from (optional)",
+            "type":"string"
+        }
+    },
+    "required": ["taskId"],
+    "anyOf": [
+        { "required": ["keywords"] },
+        { "required": ["source"] }
+    ]
+}

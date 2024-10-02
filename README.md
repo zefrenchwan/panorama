@@ -56,6 +56,10 @@ This server will load database configuration and define collection tasks to run.
 1. Define configuration in an `.env` file as descibed below
 2. Launch the whole system via a `docker compose up` 
 
+### Security 
+
+**First thing to do: Change file** `interactions/Dockerfile` **to change env values**. 
+
 ### The global env file
 
 Create a `.env` file at the same level as `compose.yaml`. 
