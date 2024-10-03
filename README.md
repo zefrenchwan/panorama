@@ -41,10 +41,12 @@ OAuth2 is obvious technical choice.
 
 ### Storage 
 
-There are two databases: 
+There are two main databases: 
 1. One for configuration and selectors definition
 2. One for analytics (to see results)
 
+Some tactical storages are necessary too:
+1. Redis for session management in `interactions`
 
 ### Scheduling 
 

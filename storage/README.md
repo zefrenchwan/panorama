@@ -1,6 +1,6 @@
 # Storage
 
-There are two databases: 
+There are two main databases: 
 1. One to store what to collect and how to perform data collection
 2. One to store collected data 
 
