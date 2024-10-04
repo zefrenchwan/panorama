@@ -55,7 +55,7 @@ app.get('/dashboard', (req, resp) => {
     return resp
   }
 
-  redisClient.get("sid:"+ sessionId, (err, val) => {
+  app.redis.get("sid:"+ sessionId, (err, val) => {
     if (err) {
       app.logger.error("error when getting user data" + err)
       resp.redirect("/index.html")
@@ -76,7 +76,7 @@ app.post('/auth', (req, resp) => {
   
   // if it matches, adds it
   const sessionId = crypto.randomBytes(24).toString("hex");
-  redisClient.set("sid:" + sessionId, username, (err) => {
+  app.redis.set("sid:" + sessionId, username, (err) => {
     if (err) {
       app.log.error("error when writing user session data to redis " + err)
     }

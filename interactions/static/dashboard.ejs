@@ -6,16 +6,32 @@
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
     </head>
+    <script type="text/javascript">
+        function onSourcesSelection() {
+            document.getElementById('actionsPanel').innerHTML = "<p>Sources</p>"
+        }
+
+        function onDataCollectionsSelection() {
+            document.getElementById('actionsPanel').innerHTML = "<p>Data collection</p>"
+        }
+
+        function onResultsSelection() {
+            document.getElementById('actionsPanel').innerHTML = "<p>Results</p>"
+        }
+    </script>
     <body>
         <h1>Dashboard</h1>
         <div>
             <p>Hello  <%= username %>. In here, you may:
                 <ul> 
-                    <li>Add new sources</li>
-                    <li>Manage your data collections</li>
-                    <li>See your results</li>
+                    <li><a href="#" onclick="onSourcesSelection()">Add new sources</a></li>
+                    <li><a href="#" onclick="onDataCollectionsSelection()">Manage your data collections</a></li>
+                    <li><a href="#" onclick="onResultsSelection()">See your results</a></li>
                 </ul>
             </p>
+        </div>
+        <div id="actionsPanel">
+
         </div>
     </body>
 </html>

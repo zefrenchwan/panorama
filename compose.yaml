@@ -16,7 +16,7 @@ services:
       - "127.0.0.1:3000:3000"
     environment:
       - SESSION_SECRET=${SESSION_SECRET}
-      - REDIS_URL=redis://:${REDIS_STORE_PASSWORD}@sessions_store:6379/0
+      - REDIS_URL=redis://default:${REDIS_STORE_PASSWORD}@sessions_store:6379/0
     depends_on:
       dbconf:
         condition: service_healthy
@@ -44,14 +44,11 @@ services:
   sessions_store:
     image: redis:latest
     restart: always
+    command: /bin/sh -c "redis-server --requirepass ${REDIS_STORE_PASSWORD}"
     ports:
       - "6379:6379"
-    environment:
-      - REDIS_PASSWORD=${REDIS_STORE_PASSWORD}
-      - REDIS_PORT=6379
-      - REDIS_DATABASES=2
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      test: ["CMD-SHELL", "redis-cli -u redis://default:${REDIS_STORE_PASSWORD}@sessions_store:6379/0 ping"]
       interval: 1s
       timeout: 3s
       retries: 10
