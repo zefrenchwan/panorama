@@ -2,6 +2,8 @@ services:
   launchers:
     build: collections/launchers/
     container_name: launchers_container
+    environment:
+      - DBCONF_URL=postgres://${DBCONF_USER}:${DBCONF_PASS}@dbconf:5432/${DBCONF_NAME}
     ports:
       - "127.0.0.1:8080:8080"
     depends_on:

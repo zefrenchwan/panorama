@@ -7,11 +7,11 @@ const fastifyForms = require('@fastify/formbody')
 const crypto = require("crypto");
 const ioredis = require('ioredis');
 
-// general properties, docker will allow changes
+// general properties, generated for the moment 
 const port = 3000
 const addr = '0.0.0.0'
-const session_secret = process.env.SESSION_SECRET
-const cookie_secret= process.env.COOKIE_SECRET
+const session_secret = crypto.randomBytes(128).toString('hex');
+const cookie_secret= crypto.randomBytes(64).toString('hex');
 const redis_url = process.env.REDIS_URL 
 
 /////////////////////
