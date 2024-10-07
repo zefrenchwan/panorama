@@ -4,11 +4,20 @@ services:
     container_name: launchers_container
     environment:
       - DBCONF_URL=postgres://${DBCONF_USER}:${DBCONF_PASS}@dbconf:5432/${DBCONF_NAME}
+      - MESSAGES_URL=synchronizer:9092
     ports:
       - "127.0.0.1:8080:8080"
     depends_on:
       dbconf:
         condition: service_healthy
+
+
+  stdcollector:
+    build: collections/stdcollector/
+    container_name: std_collector_container
+    environment:
+      - TOPIC_NAME=test
+      - MESSAGES_URL=synchronizer:9092
 
 
   interactions:
@@ -54,3 +63,14 @@ services:
       interval: 1s
       timeout: 3s
       retries: 10
+
+
+  synchronizer:
+    image: 'bitnami/kafka:latest'
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@synchronizer:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
