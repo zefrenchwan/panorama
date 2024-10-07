@@ -7,6 +7,7 @@ name = 'pypi'
 bottle = '*'
 "psycopg[binary]" = '*'
 "jsonschema" = '*'
+"kafka-python"= "*"
+"kafka-python-ng" = "*"
 
 [dev-packages]
-nose = '*'
