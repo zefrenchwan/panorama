@@ -7,10 +7,11 @@ from uuid import uuid4
 from time import time
 from json import dumps
 import logging
+from typing import Any
 
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S',
 )
@@ -20,9 +21,9 @@ logger = logging.getLogger(__name__)
 # TODO: remove this
 fake_data = True
 
-def load_tasks_to_run() -> list[dict[str,str]]:
+def load_tasks_to_run() -> list[dict[str,Any]]:
     if fake_data:
-        return [{"task_processor": "stdcollector", "task_url": "https://www.google.fr", "task_keywords": "work harder, you dumbass"}]
+        return [{"task_processor": "searchcollector", "task_url": "https://duckduckgo.com/", "task_keywords": ["Camembert roti"]}]
     url = getenv('DBCONF_URL')
     result = list()
     with connect(url, row_factory=dict_row) as connection:
@@ -67,5 +68,4 @@ def simulate():
 
 
 if __name__ == '__main__':
-    logger.info("STARTING LAUNCH APP")
     run(host='0.0.0.0', port=8080)

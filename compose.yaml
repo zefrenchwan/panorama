@@ -24,6 +24,7 @@ services:
     environment:
       - TOPIC_NAME=stdcollector
       - MESSAGES_URL=kafka:9092
+      - DBCONF_URL=postgres://${DBCONF_USER}:${DBCONF_PASS}@dbconf:5432/${DBCONF_NAME}
     depends_on:
       kafka:
         condition: service_healthy

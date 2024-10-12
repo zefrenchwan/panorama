@@ -67,9 +67,6 @@ This server will load database configuration and define collection tasks to run.
 Create a `.env` file at the same level as `compose.yaml`. 
 It will contain all secrets for all subprojects. 
 
-To set secrets for `interactions` module:
-* `SESSION_SECRET` to define a long secret for sessions 
-
 To set configuration database, define in an env file:
 * `DBCONF_USER` to define db user 
 * `DBCONF_PASS` to define db password 
@@ -78,4 +75,5 @@ To set configuration database, define in an env file:
 
 ### Interactions
 
-You may want to change on a regular basis the `COOKIE_SECRET` value in `interactions/Dockerfile`. 
+Both session secret and cookie secret are generated on the fly as random values. 
+You may want to use a different security strategy. 

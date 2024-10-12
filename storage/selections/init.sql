@@ -18,6 +18,9 @@ create table collections.sources (
     url text unique not null     
 );
 
+insert into collections.sources(name, url) values ('Duck duck go', 'https://duckduckgo.com/');
+
+
 create table collections.selectors (
     selector_id serial primary key,
     user_id int not null references auth.users(user_id),
@@ -39,6 +42,8 @@ create table collections.tasks (
     task_id text not null primary key,
     starting_time timestamp with time zone not null, 
     ending_time timestamp with time zone, 
+    failures text[],
+    -- independant value because some page failures may be fine (no need to say that one load failure implies global failure)
     success bool 
 );
  
@@ -47,7 +52,8 @@ create table collections.loads (
     load_id text primary key,
     destination text not null,
     starting_time timestamp with time zone not null, 
-    ending_time timestamp with time zone, 
+    ending_time timestamp with time zone,
+    failures text[], 
     success bool 
 );
  
@@ -110,3 +116,28 @@ with first_tasks_to_run as (
 )
 select distinct *
 from all_selectors_to_run;
+
+
+
+create procedure collections.upsert_task(
+    p_task_id text, 
+    p_processor_name text, 
+    p_starting_date timestamp with time zone , 
+    p_ending_date timestamp with time zone , 
+    p_success bool, 
+    p_errors text[]
+) language plpgsql as $$
+declare
+    l_processor_id int;
+begin
+
+    select P.processor_id into l_processor_id  from processor P where P.activity and P.processor = p_processor_name;
+    if l_processor_id is null then 
+        raise exception 'no active processor named %', p_processor_name;
+    end if;
+
+    insert into collections.tasks(processor_id,task_id,starting_time,ending_time,failures,success)
+    values (l_processor_id, p_task_id, p_starting_date, p_ending_date, p_errors, p_success)
+    on conflict (task_id) do update 
+    set starting_time = p_starting_date, ending_time = p_ending_date, failures = p_errors, success = p_success;
+end; $$
